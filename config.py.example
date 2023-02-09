@@ -1,0 +1,17 @@
+# OPENREVIEW CREDENTIALS
+
+USERNAME = ""
+PASSWORD = ""
+
+
+# REQUIRED CONFIG(everything as string)
+
+years = [
+]
+
+confs = [
+]
+
+keywords = [
+]
+
