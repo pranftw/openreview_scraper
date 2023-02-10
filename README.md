@@ -1,5 +1,6 @@
 # Paper Scraper
-Scrape papers from top conferences like ICML, ICLR, NeurIPS, etc using OpenReview API based on searching for specific keywords in title, abstract or keywords in the submissions and save them to a CSV file.
+Scrape papers from top conferences like ICML, ICLR, NeurIPS, etc using OpenReview API based on searching for specific keywords in title, abstract or keywords in the submissions and save them to a CSV file.<br>
+Brings down the time taken to gather papers from several hours to a few minutes through automation
 
 ## Installation
 ```python
@@ -7,7 +8,7 @@ git clone https://github.com/pranftw/paper_scraper.git # clone repo
 python -m venv venv # create virtual environment
 source venv/bin/activate # activate virtual environment
 pip install -r requirements.txt # install requirements
-cp config.py.example config.py # enter your OpenReview credentials here
+cp config.py.example config.py # enter your OpenReview credentials in config.py
 ```
 
 ## Example
