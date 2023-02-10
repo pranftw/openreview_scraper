@@ -16,13 +16,13 @@ def check_keywords_with_text(keywords, text, threshold):
   return None, False
 
 
-  def satisfies_any_filters(paper, filters):
-    for filter_, args, kwargs in filters:
-      matched_keyword, matched = filter_(paper, *args, **kwargs)
-      if matched:
-        filter_type = filter_.__name__
-        return matched_keyword, filter_type, True
-    return None, None, False
+def satisfies_any_filters(paper, keywords, filters):
+  for filter_, args, kwargs in filters:
+    matched_keyword, matched = filter_(paper, keywords=keywords, *args, **kwargs)
+    if matched:
+      filter_type = filter_.__name__
+      return matched_keyword, filter_type, True
+  return None, None, False
 
 
 def keywords_filter(paper, keywords, threshold=85):

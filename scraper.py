@@ -1,45 +1,46 @@
 from utils import get_client, to_csv
 from venue import get_venues, group_venues
 from paper import get_papers
-from filter import satisfies_any_filters
+from filters import satisfies_any_filters
 
 
 class Scraper:
-  def __init__(self, conferences, years, keywords, extractor, fpath, groups=['conference', 'workshop'], only_accepted=True):
+  def __init__(self, conferences, years, keywords, extractor, fpath, fns=[], groups=['conference'], only_accepted=True):
+    # fns is a list of functions that can be specified by the user each taking in a single paper object as a parameter and returning the modified paper
     self.confs = conferences
     self.years = years
     self.keywords = keywords
     self.extractor = extractor
     self.fpath = fpath
+    self.fns = fns
     self.groups = groups
     self.only_accepted = only_accepted
     self.filters = []
     self.client = get_client()
   
   def execute(self):
-    venues = get_venues(self.client, self.confs)
+    venues = get_venues(self.client, self.confs, self.years)
     papers = get_papers(self.client, group_venues(venues, self.groups), self.only_accepted)
-    papers = apply_on_papers(papers)
+    papers = self.apply_on_papers(papers)
     to_csv(papers, self.fpath)
   
-  def apply_on_papers(self, papers, fns=None):
-    # fns is a list of functions that can be specified by the user each taking in a single paper object as a parameter and returning the modified paper
+  def apply_on_papers(self, papers):
     modified_papers = {}
     for group, grouped_venues in papers.items():
       modified_papers[group] = {}
-      for venue, venue_papers in grouped_venues.itmes():
+      for venue, venue_papers in grouped_venues.items():
         modified_papers[group][venue] = []
         venue_split = venue.split('/')
         venue_name, venue_year, venue_type = venue_split[0], venue_split[1], venue_split[2]
         for paper in venue_papers:
           # FILTERS
-          satisfying_keyword, satisfying_filter_type, satisfies = satisfies_any_filters(paper, self.filters)
+          satisfying_keyword, satisfying_filter_type, satisfies = satisfies_any_filters(paper, self.keywords, self.filters)
           if satisfies:
             # creating a new field(key) in content attr which is a dict
             paper.content['match'] = {satisfying_filter_type: satisfying_keyword}
             paper.content['group'] = group
             # Execute some custom functions
-            for fn in fns:
+            for fn in self.fns:
               paper = fn(paper)
             # FIELD EXTRACTION here paper object will be converted into a dict
             extracted_paper = self.extractor.extract(paper)
@@ -48,6 +49,7 @@ class Scraper:
             extracted_paper['year'] = venue_year
             extracted_paper['type'] = venue_type
             modified_papers[group][venue].append(extracted_paper)
+    return modified_papers
 
   def add_filter(self, filter_, *args, **kwargs):
     self.filters.append((filter_, args, kwargs))

@@ -11,7 +11,7 @@ def get_grouped_venue_papers(client, grouped_venue, only_accepted):
     papers[venue]+=submissions
 
     print(venue)
-    print(f'Number of papers: {len(notes)}')
+    print(f'Number of papers: {len(submissions)}')
   return papers
 
 

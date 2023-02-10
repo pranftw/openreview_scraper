@@ -1,3 +1,5 @@
+import openreview
+import csv
 from config import EMAIL, PASSWORD
 
 
@@ -7,8 +9,8 @@ def get_client():
 
 def papers_to_list(papers):
   all_papers = []
-  for grouped_venues in papers:
-    for venue_papers in grouped_venues:
+  for grouped_venues in papers.values():
+    for venue_papers in grouped_venues.values():
       for paper in venue_papers:
         all_papers.append(paper)
   return all_papers
@@ -17,7 +19,7 @@ def papers_to_list(papers):
 def to_csv(papers, fpath):
   all_papers = papers_to_list(papers)
   field_names = list(all_papers[0].keys()) # choose one of the papers, get all the keys as they'll be same for rest of them
-  
+
   def write_csv():
     with open(fpath, 'w') as fp:
       writer = csv.DictWriter(fp, fieldnames=field_names)

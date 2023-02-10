@@ -13,7 +13,7 @@ class Extractor:
         trimmed_paper[subfield] = {}
       for field in fields:
         field_value = paper.__getattribute__(subfield)[field]
-        if include_subfield:
+        if self.include_subfield:
           trimmed_paper[subfield][field] = field_value
         else:
           trimmed_paper[field] = field_value
