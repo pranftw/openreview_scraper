@@ -16,21 +16,6 @@ def check_keywords_with_text(keywords, text, threshold):
   return None, False
 
 
-  def apply_filters(papers, filters):
-    filtered_papers = {}
-    for group, grouped_venues in papers.items():
-      filtered_papers[group] = {}
-      for venue, venue_papers in grouped_venues:
-        filtered_papers[group][venue] = []
-        venue_filtered_papers = filtered_papers[group][venue]
-        for paper in venue_papers:
-          satisfying_keyword, satisfying_filter_type, satisfies = satisfies_any_filters(paper, filters)
-          # do something with all these satisfying keyword, satisfying filter, etc 
-          if satisfies:
-            venue_filtered_papers.append(paper)
-    return filtered_papers
-
-
   def satisfies_any_filters(paper, filters):
     for filter_, args, kwargs in filters:
       matched_keyword, matched = filter_(paper, *args, **kwargs)
