@@ -31,10 +31,10 @@ class Scraper:
     return filtered_papers
 
   def satisfies_filters(self, paper):
-    for _filter in self.filters:
-      if not(_filter(paper)):
+    for filter_, args, kwargs in self.filters:
+      if not(filter_(paper, *args, **kwargs)):
         return False
     return True
 
-  def add_filter(self, filter):
-    self.filters.append(filter)
+  def add_filter(self, filter_, *args, **kwargs):
+    self.filters.append((filter_, args, kwargs))
