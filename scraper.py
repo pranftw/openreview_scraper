@@ -19,10 +19,15 @@ class Scraper:
     self.client = get_client()
   
   def execute(self):
+    print("Getting venues...")
     venues = get_venues(self.client, self.confs, self.years)
+    print("Getting papers...\n")
     papers = get_papers(self.client, group_venues(venues, self.groups), self.only_accepted)
+    print("\nFiltering papers...")
     papers = self.apply_on_papers(papers)
+    print("Saving as CSV...")
     to_csv(papers, self.fpath)
+    print(f"Saved at {self.fpath}")
   
   def apply_on_papers(self, papers):
     modified_papers = {}
