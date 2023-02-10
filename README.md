@@ -1,5 +1,5 @@
 # Paper Scraper
-Scrape papers from top conferences like ICML, ICLR, NeurIPS, etc using OpenReview API based on searching for specific keywords in title, abstract or keywords in the submissions and save them to a CSV file.<br>
+Scrape papers from top conferences like ICML, ICLR, NeurIPS, etc using OpenReview API, by searching for specific keywords in title, abstract or keywords in the submissions and save them to a CSV file.<br>
 Brings down the time taken to gather papers from several hours to a few minutes through automation
 
 ## Installation
