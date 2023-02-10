@@ -3,15 +3,3 @@
 EMAIL = ""
 PASSWORD = ""
 
-
-# REQUIRED CONFIG(everything as string)
-
-years = [
-]
-
-confs = [
-]
-
-keywords = [
-]
-
