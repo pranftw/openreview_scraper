@@ -18,9 +18,12 @@ def papers_to_list(papers):
 
 def to_csv(papers_list, fpath):
   def write_csv():
-    with open(fpath, 'w') as fp:
+    with open(fpath, 'a+') as fp:
+      fp.seek(0, 0) # seek to beginning of file and then read
+      previous_contents = fp.read()
       writer = csv.DictWriter(fp, fieldnames=field_names)
-      writer.writeheader()
+      if previous_contents.strip()=='':
+        writer.writeheader()
       writer.writerows(papers_list)
   if len(papers_list)>0:
     field_names = list(papers_list[0].keys()) # choose one of the papers, get all the keys as they'll be same for rest of them
