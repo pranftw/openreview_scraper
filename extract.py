@@ -4,6 +4,9 @@ class Extractor:
     self.subfields = subfields
     self.include_subfield = include_subfield
   
+  def __call__(self, paper):
+    return self.extract(paper)
+
   def extract(self, paper):
     trimmed_paper = {}
     for field in self.fields:

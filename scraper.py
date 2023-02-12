@@ -1,11 +1,11 @@
-from utils import get_client, to_csv
+from utils import get_client, to_csv, papers_to_list
 from venue import get_venues, group_venues
 from paper import get_papers
 from filters import satisfies_any_filters
 
 
 class Scraper:
-  def __init__(self, conferences, years, keywords, extractor, fpath, fns=[], groups=['conference'], only_accepted=True):
+  def __init__(self, conferences, years, keywords, extractor, fpath, selector=None, fns=[], groups=['conference'], only_accepted=True):
     # fns is a list of functions that can be specified by the user each taking in a single paper object as a parameter and returning the modified paper
     self.confs = conferences
     self.years = years
@@ -15,18 +15,26 @@ class Scraper:
     self.fns = fns
     self.groups = groups
     self.only_accepted = only_accepted
+    self.selector = selector
     self.filters = []
     self.client = get_client()
   
-  def execute(self):
+  def __call__(self):
+    self.scrape()
+  
+  def scrape(self):
     print("Getting venues...")
     venues = get_venues(self.client, self.confs, self.years)
     print("Getting papers...\n")
     papers = get_papers(self.client, group_venues(venues, self.groups), self.only_accepted)
     print("\nFiltering papers...")
     papers = self.apply_on_papers(papers)
+    if self.selector is not None:
+      papers_list = self.selector(papers)
+    else:
+      papers_list = papers_to_list(papers)
     print("Saving as CSV...")
-    to_csv(papers, self.fpath)
+    to_csv(papers_list, self.fpath)
     print(f"Saved at {self.fpath}")
   
   def apply_on_papers(self, papers):
@@ -48,7 +56,7 @@ class Scraper:
             for fn in self.fns:
               paper = fn(paper)
             # FIELD EXTRACTION here paper object will be converted into a dict
-            extracted_paper = self.extractor.extract(paper)
+            extracted_paper = self.extractor(paper)
             # add some extra fields
             extracted_paper['venue'] = venue_name
             extracted_paper['year'] = venue_year

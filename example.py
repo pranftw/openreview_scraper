@@ -1,6 +1,7 @@
 from scraper import Scraper
 from extract import Extractor
 from filters import title_filter, keywords_filter, abstract_filter
+from selector import Selector
 
 
 years = [
@@ -21,10 +22,11 @@ def modify_paper(paper):
   return paper
 
 extractor = Extractor(fields=['forum'], subfields={'content':['title', 'keywords', 'abstract', 'pdf', 'match']})
-scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper])
+selector = Selector()
+scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper], selector=selector)
 
 scraper.add_filter(title_filter)
 scraper.add_filter(keywords_filter)
 scraper.add_filter(abstract_filter)
 
-scraper.execute()
+scraper()

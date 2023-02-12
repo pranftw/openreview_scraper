@@ -1,10 +1,10 @@
-# Paper Scraper
+# OpenReview Scraper
 Scrape papers from top conferences like ICML, ICLR, NeurIPS, etc using OpenReview API, by searching for specific keywords in title, abstract or keywords in the submissions and save them to a CSV file.<br>
 Brings down the time taken to gather papers from several hours to a few minutes through automation
 
 ## Installation
 ```python
-git clone https://github.com/pranftw/paper_scraper.git # clone repo
+git clone https://github.com/pranftw/openreview_scraper.git # clone repo
 python -m venv venv # create virtual environment
 source venv/bin/activate # activate virtual environment
 pip install -r requirements.txt # install requirements
@@ -16,6 +16,7 @@ cp config.py.example config.py # enter your OpenReview credentials in config.py
 from scraper import Scraper
 from extract import Extractor
 from filters import title_filter, keywords_filter, abstract_filter
+from selector import Selector
 
 
 years = [
@@ -36,11 +37,12 @@ def modify_paper(paper):
   return paper
 
 extractor = Extractor(fields=['forum'], subfields={'content':['title', 'keywords', 'abstract', 'pdf', 'match']})
-scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper])
+selector = Selector()
+scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper], selector=selector)
 
 scraper.add_filter(title_filter)
 scraper.add_filter(keywords_filter)
 scraper.add_filter(abstract_filter)
 
-scraper.execute()
+scraper()
 ```

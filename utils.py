@@ -16,13 +16,12 @@ def papers_to_list(papers):
   return all_papers
 
 
-def to_csv(papers, fpath):
-  all_papers = papers_to_list(papers)
-  field_names = list(all_papers[0].keys()) # choose one of the papers, get all the keys as they'll be same for rest of them
-
+def to_csv(papers_list, fpath):
   def write_csv():
     with open(fpath, 'w') as fp:
       writer = csv.DictWriter(fp, fieldnames=field_names)
       writer.writeheader()
-      writer.writerows(all_papers)
-  write_csv()
+      writer.writerows(papers_list)
+  if len(papers_list)>0:
+    field_names = list(papers_list[0].keys()) # choose one of the papers, get all the keys as they'll be same for rest of them
+    write_csv()
