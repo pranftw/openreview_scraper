@@ -37,9 +37,10 @@ class Selector:
     return selected_papers
   
   def print_paper(self, paper):
+    print('\n' + '-'*os.get_terminal_size().columns + '\n')
     print(f"Paper {self.start_idx}\n")
     for field in self.fields:
-      print(f"{field.capitalize()}: {paper[field]}\n")
+      print(f"{field.upper()}: {paper[field]}\n")
 
   def handle_options(self, paper, selected_papers):
     options_str = ''
