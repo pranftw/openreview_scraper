@@ -1,6 +1,7 @@
 import openreview
 import csv
 from config import EMAIL, PASSWORD
+import dill
 
 
 def get_client():
@@ -28,3 +29,16 @@ def to_csv(papers_list, fpath):
   if len(papers_list)>0:
     field_names = list(papers_list[0].keys()) # choose one of the papers, get all the keys as they'll be same for rest of them
     write_csv()
+
+
+def save_papers(papers, fpath):
+  with open(fpath, 'wb') as fp:
+    dill.dump(papers, fp)
+    print(f'Papers saved at: {fpath}')
+
+
+def load_papers(fpath):
+  with open(fpath, 'rb') as fp:
+    papers = dill.load(fp)
+  print(f'Papers loaded from: {fpath}')
+  return papers

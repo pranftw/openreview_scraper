@@ -2,6 +2,7 @@ from scraper import Scraper
 from extract import Extractor
 from filters import title_filter, keywords_filter, abstract_filter
 from selector import Selector
+from utils import save_papers, load_papers
 
 
 years = [
@@ -30,3 +31,6 @@ scraper.add_filter(keywords_filter)
 scraper.add_filter(abstract_filter)
 
 scraper()
+
+save_papers(scraper.papers, fpath='papers.pkl')
+saved_papers = load_papers(fpath='papers.pkl')

@@ -18,6 +18,7 @@ class Scraper:
     self.selector = selector
     self.filters = []
     self.client = get_client()
+    self.papers = None # this'll contain all the papers returned from apply_on_papers
   
   def __call__(self):
     self.scrape()
@@ -29,6 +30,7 @@ class Scraper:
     papers = get_papers(self.client, group_venues(venues, self.groups), self.only_accepted)
     print("\nFiltering papers...")
     papers = self.apply_on_papers(papers)
+    self.papers = papers
     if self.selector is not None:
       papers_list = self.selector(papers)
     else:

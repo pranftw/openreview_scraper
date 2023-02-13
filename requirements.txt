@@ -1,2 +1,3 @@
 openreview-py
 thefuzz[speedup]
+dill
