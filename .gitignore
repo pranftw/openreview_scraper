@@ -3,3 +3,4 @@ config.py
 __pycache__
 example.csv
 papers.pkl
+run.py
