@@ -28,9 +28,9 @@ class Scraper:
     venues = get_venues(self.client, self.confs, self.years)
     print("Getting papers...\n")
     papers = get_papers(self.client, group_venues(venues, self.groups), self.only_accepted)
+    self.papers = papers
     print("\nFiltering papers...")
     papers = self.apply_on_papers(papers)
-    self.papers = papers
     if self.selector is not None:
       papers_list = self.selector(papers)
     else:

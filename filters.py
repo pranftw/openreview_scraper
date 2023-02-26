@@ -30,8 +30,8 @@ def keywords_filter(paper, keywords, threshold=85):
 
 
 def title_filter(paper, keywords, threshold=85):
-  return check_keywords_with_keywords(keywords, paper.content['title'], threshold)
+  return check_keywords_with_text(keywords, paper.content['title'], threshold)
 
 
 def abstract_filter(paper, keywords, threshold=85):
-  return check_keywords_with_keywords(keywords, paper.content['abstract'], threshold)
+  return check_keywords_with_text(keywords, paper.content['abstract'], threshold)
