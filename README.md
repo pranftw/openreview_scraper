@@ -37,16 +37,24 @@ def modify_paper(paper):
   paper.content['pdf'] = f"https://openreview.net{paper.content['pdf']}"
   return paper
 
+# what fields to extract
 extractor = Extractor(fields=['forum'], subfields={'content':['title', 'keywords', 'abstract', 'pdf', 'match']})
-selector = Selector()
-scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper], selector=selector)
 
+# if you want to select papers manually among the scraped papers
+# selector = Selector()
+# scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper], selector=selector)
+
+# if you want all the scraped papers
+scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper])
+
+# adding filters to filter on
 scraper.add_filter(title_filter)
 scraper.add_filter(keywords_filter)
 scraper.add_filter(abstract_filter)
 
 scraper()
 
+# if you want to save scraped papers as OpenReview objects using pickle
 save_papers(scraper.papers, fpath='papers.pkl')
 saved_papers = load_papers(fpath='papers.pkl')
 ```
