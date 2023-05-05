@@ -42,10 +42,11 @@ extractor = Extractor(fields=['forum'], subfields={'content':['title', 'keywords
 
 # if you want to select papers manually among the scraped papers
 # selector = Selector()
-# scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper], selector=selector)
 
-# if you want all the scraped papers
-scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper])
+# select all scraped papers
+selector = None
+
+scraper = Scraper(conferences=conferences, years=years, keywords=keywords, extractor=extractor, fpath='example.csv', fns=[modify_paper], selector=selector)
 
 # adding filters to filter on
 scraper.add_filter(title_filter)
