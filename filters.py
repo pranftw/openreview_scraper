@@ -29,7 +29,6 @@ def keywords_filter(paper, keywords, threshold=85):
   paper_keywords = paper.content.get('keywords')
   if paper_keywords is not None:
     return check_keywords_with_keywords(keywords, paper_keywords, threshold)
-  print('keyword')
   return None, False
 
 
@@ -37,7 +36,6 @@ def title_filter(paper, keywords, threshold=85):
   paper_title = paper.content.get('title')
   if paper_title is not None:
     return check_keywords_with_text(keywords, paper_title, threshold)
-  print('title')
   return None, False
 
 
@@ -45,5 +43,4 @@ def abstract_filter(paper, keywords, threshold=85):
   paper_abstract = paper.content.get('abstract')
   if paper_abstract is not None:
     return check_keywords_with_text(keywords, paper_abstract, threshold)
-  print('abstract')
   return None, False
