@@ -21,12 +21,10 @@ from utils import save_papers, load_papers
 
 
 years = [
-    '2023',
-    '2022',
-    '2021'
+    '2024'
 ]
 conferences = [
-    'NeurIPS'
+    'ICLR'
 ]
 keywords = [
     'generalization'
