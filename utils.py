@@ -5,7 +5,22 @@ import dill
 
 
 def get_client():
-  return openreview.Client(baseurl='https://api.openreview.net', username=EMAIL, password=PASSWORD)
+    """
+    Returns a tuple of (client_v1, client_v2) for both OpenReview API versions.
+    """
+    client_v1 = openreview.Client(
+        baseurl='https://api.openreview.net',
+        username=EMAIL,
+        password=PASSWORD
+    )
+    
+    client_v2 = openreview.api.OpenReviewClient(
+        baseurl='https://api2.openreview.net',
+        username=EMAIL,
+        password=PASSWORD
+    )
+    
+    return client_v1, client_v2
 
 
 def papers_to_list(papers):

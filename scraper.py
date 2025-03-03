@@ -17,7 +17,8 @@ class Scraper:
     self.only_accepted = only_accepted
     self.selector = selector
     self.filters = []
-    self.client = get_client()
+    # Get both API v1 and API v2 clients
+    self.clients = get_client()
     self.papers = None # this'll contain all the papers returned from apply_on_papers
   
   def __call__(self):
@@ -25,9 +26,9 @@ class Scraper:
   
   def scrape(self):
     print("Getting venues...")
-    venues = get_venues(self.client, self.confs, self.years)
+    venues = get_venues(self.clients, self.confs, self.years)
     print("Getting papers...\n")
-    papers = get_papers(self.client, group_venues(venues, self.groups), self.only_accepted)
+    papers = get_papers(self.clients, group_venues(venues, self.groups), self.only_accepted)
     self.papers = papers
     print("\nFiltering papers...")
     papers = self.apply_on_papers(papers)
